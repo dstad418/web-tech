@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
       };
   
       // Log the form data to the console
-      console.log("Form Data: ", formData);
+    console.log("Form Data: ", formData);
     });
-  });
+});
   
