@@ -1,0 +1,48 @@
+
+.App {
+  background-color: cyan;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  height: 100%;
+}
+
+.donut-size {
+  width: 100%; 
+  height: auto;
+  margin: auto;
+  padding: 20px;
+}
+
+.donut-chart {
+  height: 80vh; 
+  width: auto; 
+}
+
+.search-bar {
+  width: 60%; 
+  margin: auto;
+  margin-top: 10vh; 
+  text-align: center;
+}
+
+
+input[type="text"] {
+  width: 80%; 
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+button {
+  padding: 12px 20px;
+}
