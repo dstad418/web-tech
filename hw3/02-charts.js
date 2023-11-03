@@ -140,7 +140,7 @@ const renderChart = (houseData) => {
     },
     options: {
       legend: {
-        display: false
+        display: true
       }
     }
   });
