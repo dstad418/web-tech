@@ -1,3 +1,5 @@
+
+// Define background and border colors for the chart
 const backgroundColors = [
   'rgba(54, 162, 235, 0.8)',
   'rgba(255, 206, 86, 0.8)',
@@ -10,6 +12,23 @@ const backgroundColors = [
   'rgba(40, 159, 64, 0.8)',
   'rgba(210, 199, 199, 0.8)',
   'rgba(78, 52, 199, 0.8)',
+  'rgba(128, 0, 0, 0.8)',
+  'rgba(0, 128, 0, 0.8)',
+  'rgba(0, 0, 128, 0.8)',
+  'rgba(128, 128, 0, 0.8)',
+  'rgba(128, 0, 128, 0.8)',
+  'rgba(0, 128, 128, 0.8)',
+  'rgba(192, 192, 192, 0.8)',
+  'rgba(128, 128, 128, 0.8)',
+  'rgba(0, 0, 0, 0.8)',
+  'rgba(255, 0, 0, 0.8)',
+  'rgba(0, 255, 0, 0.8)',
+  'rgba(0, 0, 255, 0.8)',
+  'rgba(255, 255, 0, 0.8)',
+  'rgba(0, 255, 255, 0.8)',
+  'rgba(255, 0, 255, 0.8)',
+  'rgba(220, 20, 60, 0.8)',
+  'rgba(184, 134, 11, 0.8)',
 ];
 
 const borderColors = [
@@ -24,29 +43,112 @@ const borderColors = [
   'rgba(40, 159, 64, 1)',
   'rgba(210, 199, 199, 1)',
   'rgba(78, 52, 199, 1)',
+  'rgba(128, 0, 0, 0.8)',
+  'rgba(0, 128, 0, 0.8)',
+  'rgba(0, 0, 128, 0.8)',
+  'rgba(128, 128, 0, 0.8)',
+  'rgba(128, 0, 128, 0.8)',
+  'rgba(0, 128, 128, 0.8)',
+  'rgba(192, 192, 192, 0.8)',
+  'rgba(128, 128, 128, 0.8)',
+  'rgba(0, 0, 0, 0.8)',
+  'rgba(255, 0, 0, 0.8)',
+  'rgba(0, 255, 0, 0.8)',
+  'rgba(0, 0, 255, 0.8)',
+  'rgba(255, 255, 0, 0.8)',
+  'rgba(0, 255, 255, 0.8)',
+  'rgba(255, 0, 255, 0.8)',
+  'rgba(220, 20, 60, 0.8)',
+  'rgba(184, 134, 11, 0.8)',
 ];
 
-// url for the Thrones API
-const url = 'https://thronesapi.com/api/v2/Characters';
+// Function to fetch Thrones API data
+const fetchCharacters = async () => {
+  try{
+  const res = await fetch('https://thronesapi.com/api/v2/Characters');
+  const data = await res.json();
+  return data;
+  } 
+  catch (error) {
+  console.error("There was an error fetching the characters:", error);
+  return [];
+  }
+};
 
-const renderChart = () => {
+// Function to sanitize house names
+const sanitizeHouseName = (name) => {
+  switch (name) {
+    case 'Mormont':
+      return 'House Mormont';
+    case 'Baratheon':
+      return 'House Baratheon';
+    case 'Bolton':
+      return 'House Bolton';
+    case 'Stark':
+      return 'House Stark';
+    case 'Targaryan':
+    case 'Targaryen':
+      return 'House Targaryen';
+    case 'House Lannister':
+    case 'Lannister':
+    case 'Lanister':
+    case 'House Lanister':
+      return 'House Lannister';
+    case 'Tarth':
+      return 'House Tarth';
+    case 'Greyjoy':
+      return 'House Greyjoy';
+    case '':
+    case 'None':
+    case 'Unkown':
+    case undefined:
+      return 'Unknown';
+    default:
+      return name;
+  }
+};
+
+const countByHouse = (characters) => {
+  const counts = {};
+
+  characters.forEach((character) => {
+    const house = sanitizeHouseName(character.family);
+    if (house) {
+      counts[house] = (counts[house] || 0) + 1;
+    }
+  });
+  return counts;
+};
+
+const renderChart = (houseData) => {
+  const labels = Object.keys(houseData);
+  const data = Object.values(houseData);
   const donutChart = document.querySelector('.donut-chart');
 
   new Chart(donutChart, {
     type: 'doughnut',
     data: {
-      labels: ['label', 'label', 'label', 'label'],
+      labels,
       datasets: [
         {
-          label: 'My First Dataset',
-          data: [1, 12, 33, 5],
+          data,
           backgroundColor: backgroundColors,
           borderColor: borderColors,
           borderWidth: 1,
         },
       ],
     },
+    options: {
+      legend: {
+        display: true
+      }
+    }
   });
 };
 
-renderChart();
+// Render to DOM post-fetch
+document.addEventListener('DOMContentLoaded', async () => {
+  const characters = await fetchCharacters();
+  const houseCounts = countByHouse(characters);
+  renderChart(houseCounts);
+});

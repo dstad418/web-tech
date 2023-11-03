@@ -1,3 +1,4 @@
+
 :root {
   --black: #020202;
   --white: #ffffff;
@@ -7,13 +8,71 @@
 
 body {
   background-color: var(--cyan);
+  font-family: Arial, sans-serif;
 }
 
 h1 {
   text-align: center;
+  margin-bottom: 20px;
+  color: var(--black);
 }
 
-.donut-chart {
-  border-radius: 0.8rem;
-  background-color: var(--white);
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.character {
+  background-color: transparent;
+  border: none; 
+  /* Sets the tiles at two-wide in mobile */
+  flex: 1 0 calc(50% - 20px);
+  text-align: center;
+  margin: 10px;
+  padding: 10px;
+  /* Makes the transitions less jarring for the eyes */
+  transition: all 0.3s ease;
+  color: var(--black);
+  font-weight: bold;
+}
+
+/* Viewports 600px< */
+@media (min-width: 600px) {
+  .character {
+    flex: 1 0 calc(33.33% - 20px); /* 3 tiles */
+  }
+}
+
+/* Viewports 900px< */
+@media (min-width: 900px) {
+  .character {
+    flex: 1 0 calc(25% - 20px); /* 4 tiles */
+  }
+}
+
+.character:hover {
+  background-color: var(--blue);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: var(--white);
+}
+
+.character img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.character p {
+  margin: 10px 0;
+  padding: 0;
+}
+
